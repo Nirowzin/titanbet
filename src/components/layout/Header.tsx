@@ -37,7 +37,7 @@ export function Header() {
         scrolled ? 'bg-[#0a0a0f]/95 backdrop-blur-md shadow-lg shadow-black/50' : 'bg-[#0a0a0f]'
       } border-b border-[#1e1e2e]`}
     >
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 flex-shrink-0">
           <div className="w-9 h-9 bg-titan-gold rounded-lg flex items-center justify-center shadow-lg">
@@ -67,27 +67,28 @@ export function Header() {
         </nav>
 
         {/* Right side */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {user && profile ? (
             <>
-              {/* Saldo */}
-              <div className="hidden sm:flex items-center gap-2 bg-[#1a1a2e] border border-[#2a2a3e] rounded-lg px-3 py-2">
+              {/* Saldo — apenas md+ */}
+              <div className="hidden md:flex items-center gap-2 bg-[#1a1a2e] border border-[#2a2a3e] rounded-lg px-3 py-2">
                 <Wallet className="w-4 h-4 text-[#f5a623]" />
                 <span className="text-sm font-bold text-white">
                   {formatCurrency(profile.balance)}
                 </span>
               </div>
 
-              {/* Depositar */}
-              <Link href="/carteira?tab=deposito">
-                <button className="btn-titan text-sm py-2 px-4 hidden sm:flex">
-                  <Zap className="w-4 h-4" />
-                  Depositar
+              {/* Depositar — apenas sm+ */}
+              <Link href="/carteira?tab=deposito" className="hidden sm:block">
+                <button className="btn-titan text-xs sm:text-sm py-1.5 sm:py-2 px-3 sm:px-4">
+                  <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Depositar</span>
+                  <span className="sm:hidden">+</span>
                 </button>
               </Link>
 
-              {/* Notificações */}
-              <button className="relative w-9 h-9 rounded-lg bg-[#1a1a2e] border border-[#2a2a3e] flex items-center justify-center hover:bg-[#2a2a3e] transition-colors">
+              {/* Notificações — apenas md+ */}
+              <button className="relative hidden md:flex w-9 h-9 rounded-lg bg-[#1a1a2e] border border-[#2a2a3e] items-center justify-center hover:bg-[#2a2a3e] transition-colors">
                 <Bell className="w-4 h-4 text-[#b0b0c8]" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#f5a623] rounded-full text-[10px] font-bold text-black flex items-center justify-center">
                   3
@@ -98,17 +99,17 @@ export function Header() {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 bg-[#1a1a2e] border border-[#2a2a3e] rounded-lg px-3 py-2 hover:bg-[#2a2a3e] transition-colors"
+                  className="flex items-center gap-1.5 bg-[#1a1a2e] border border-[#2a2a3e] rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 hover:bg-[#2a2a3e] transition-colors"
                 >
-                  <div className="w-6 h-6 bg-titan-gold rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 bg-titan-gold rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-xs font-bold text-black">
                       {profile.username?.[0]?.toUpperCase() || 'U'}
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-white hidden sm:block max-w-[100px] truncate">
+                  <span className="text-sm font-medium text-white hidden sm:block max-w-[80px] truncate">
                     {profile.username}
                   </span>
-                  <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform hidden sm:block ${userMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {userMenuOpen && (
@@ -154,11 +155,12 @@ export function Header() {
           ) : (
             <>
               <Link href="/login">
-                <button className="btn-ghost text-sm py-2 px-3">Entrar</button>
+                <button className="btn-ghost text-xs sm:text-sm py-1.5 sm:py-2 px-2 sm:px-3">Entrar</button>
               </Link>
               <Link href="/registro">
-                <button className="btn-titan text-sm py-2 px-4">
-                  Criar Conta
+                <button className="btn-titan text-xs sm:text-sm py-1.5 sm:py-2 px-3 sm:px-4">
+                  <span className="hidden sm:inline">Criar Conta</span>
+                  <span className="sm:hidden">Cadastrar</span>
                 </button>
               </Link>
             </>
@@ -166,7 +168,7 @@ export function Header() {
 
           {/* Mobile menu toggle */}
           <button
-            className="md:hidden w-9 h-9 rounded-lg bg-[#1a1a2e] border border-[#2a2a3e] flex items-center justify-center"
+            className="md:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#1a1a2e] border border-[#2a2a3e] flex items-center justify-center flex-shrink-0"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -176,8 +178,18 @@ export function Header() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-[#1e1e2e] bg-[#0a0a0f] animate-slide-up">
-          <div className="px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-[#1e1e2e] bg-[#0d0d18] animate-slide-up">
+          <div className="px-3 py-3 space-y-1">
+            {/* Saldo mobile */}
+            {user && profile && (
+              <div className="flex items-center justify-between bg-[#1a1a2e] border border-[#2a2a3e] rounded-lg px-4 py-3 mb-2">
+                <div className="flex items-center gap-2">
+                  <Wallet className="w-4 h-4 text-[#f5a623]" />
+                  <span className="text-xs text-gray-400">Saldo</span>
+                </div>
+                <span className="text-sm font-bold text-white">{formatCurrency(profile.balance)}</span>
+              </div>
+            )}
             {navLinks.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
